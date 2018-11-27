@@ -7,8 +7,9 @@ const int m1_2pin = 3;
 const int m2_enablePin = 10;
 const int m2_1pin = 4;
 const int m2_2pin = 5;
+const int motorPower = 100;
 
-Adafruit_TCS34725 tcs = Adafruit_TCS34725()
+Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
 void setup() {
   pinMode(m1_enablePin , OUTPUT);
@@ -17,11 +18,10 @@ void setup() {
   pinMode(m2_enablePin , OUTPUT);
   pinMode(m2_1pin , OUTPUT);
   pinMode(m2_2pin , OUTPUT);
-
-  digitalWrite(m1_enablePin, HIGH);
-  digitalWrite(m2_enablePin, HIGH);
-  delay(6000);
-
+  
+  analogWrite(m1_enablePin, motorPower);
+  analogWrite(m2_enablePin, motorPower);
+  
   Serial.begin(9600);
   if (tcs.begin()) {
     Serial.println("Found TCS3475");
@@ -29,7 +29,7 @@ void setup() {
     Serial.println("No TCS34725 found");
     while (1);
   }
-  delay(6000);
+  delay(3000);
 }
 
 void loop() {
@@ -47,15 +47,14 @@ void loop() {
   Serial.print("C: "); Serial.print(c, DEC); Serial.print(" ");
   Serial.println(" ");
 
-  //if(lux < threshold){
-  //  swingTurnRight(20);
-  //} else {
-  //  swingTurnLeft(20);
-  //}
-  
+  if(c < 20){
+    swingTurnRight(20);
+  } else {
+    swingTurnLeft(20);
+  }
   
 }
-void swingTurnRight(int period){
+void swingTurnLeft(int period){
   digitalWrite(m1_1pin, LOW);
   digitalWrite(m1_2pin, LOW);
   digitalWrite(m2_1pin, LOW);
@@ -63,7 +62,7 @@ void swingTurnRight(int period){
   delay(period);
 }
 
-void swingTurnLeft(int period){
+void swingTurnRight(int period){
   digitalWrite(m1_1pin, LOW); 
   digitalWrite(m1_2pin, HIGH);
   digitalWrite(m2_1pin, LOW);
