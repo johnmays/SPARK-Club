@@ -8,6 +8,7 @@ const int m2_enablePin = 10;
 const int m2_1pin = 4;
 const int m2_2pin = 5;
 const int motorPower = 100;
+const int powerPeriod = 10;
 
 Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
@@ -48,9 +49,9 @@ void loop() {
   Serial.println(" ");
 
   if(c < 20){
-    swingTurnRight(20);
+    swingTurnRight(powerPeriod);
   } else {
-    swingTurnLeft(20);
+    swingTurnLeft(powerPeriod);
   }
   
 }
